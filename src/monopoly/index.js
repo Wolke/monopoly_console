@@ -1,4 +1,4 @@
-import Game from './monopoly/Game.js';
+import Game from './Game.js';
 
 // 建立全域遊戲物件，方便在控制台中訪問
 window.MonopolyGame = {
