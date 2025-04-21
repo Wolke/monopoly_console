@@ -1,0 +1,289 @@
+[
+  {
+    "id": 0,
+    "name": "起點",
+    "type": "go"
+  },
+  {
+    "id": 1,
+    "name": "台北信義區",
+    "price": 1200,
+    "type": "property",
+    "rentLevels": [60, 180, 500, 700, 900],
+    "upgradePrice": 1000
+  },
+  {
+    "id": 2,
+    "name": "機會",
+    "type": "chance"
+  },
+  {
+    "id": 3,
+    "name": "台北中山區",
+    "price": 1400,
+    "type": "property",
+    "rentLevels": [70, 200, 550, 750, 950],
+    "upgradePrice": 1000
+  },
+  {
+    "id": 4,
+    "name": "所得稅",
+    "type": "tax",
+    "taxType": "income"
+  },
+  {
+    "id": 5,
+    "name": "台北車站",
+    "price": 2000,
+    "type": "station",
+    "rentLevels": [250, 500, 1000, 2000],
+    "upgradePrice": 0
+  },
+  {
+    "id": 6,
+    "name": "台中西區",
+    "price": 1600,
+    "type": "property",
+    "rentLevels": [80, 220, 600, 800, 1000],
+    "upgradePrice": 1000
+  },
+  {
+    "id": 7,
+    "name": "社區寶箱",
+    "type": "community"
+  },
+  {
+    "id": 8,
+    "name": "台中北屯區",
+    "price": 1600,
+    "type": "property",
+    "rentLevels": [80, 220, 600, 800, 1000],
+    "upgradePrice": 1000
+  },
+  {
+    "id": 9,
+    "name": "台中南區",
+    "price": 1800,
+    "type": "property",
+    "rentLevels": [90, 250, 700, 875, 1050],
+    "upgradePrice": 1000
+  },
+  {
+    "id": 10,
+    "name": "訪問監獄",
+    "type": "jail-visit"
+  },
+  {
+    "id": 11,
+    "name": "高雄鼓山區",
+    "price": 2000,
+    "type": "property",
+    "rentLevels": [100, 300, 750, 925, 1100],
+    "upgradePrice": 1500
+  },
+  {
+    "id": 12,
+    "name": "電力公司",
+    "price": 1500,
+    "type": "utility",
+    "rentLevels": [100, 200],
+    "upgradePrice": 0
+  },
+  {
+    "id": 13,
+    "name": "高雄左營區",
+    "price": 2000,
+    "type": "property",
+    "rentLevels": [100, 300, 750, 925, 1100],
+    "upgradePrice": 1500
+  },
+  {
+    "id": 14,
+    "name": "高雄三民區",
+    "price": 2200,
+    "type": "property",
+    "rentLevels": [110, 330, 800, 975, 1150],
+    "upgradePrice": 1500
+  },
+  {
+    "id": 15,
+    "name": "高雄車站",
+    "price": 2000,
+    "type": "station",
+    "rentLevels": [250, 500, 1000, 2000],
+    "upgradePrice": 0
+  },
+  {
+    "id": 16,
+    "name": "台南中西區",
+    "price": 2400,
+    "type": "property",
+    "rentLevels": [120, 360, 850, 1025, 1200],
+    "upgradePrice": 1500
+  },
+  {
+    "id": 17,
+    "name": "機會",
+    "type": "chance"
+  },
+  {
+    "id": 18,
+    "name": "台南東區",
+    "price": 2400,
+    "type": "property",
+    "rentLevels": [120, 360, 850, 1025, 1200],
+    "upgradePrice": 1500
+  },
+  {
+    "id": 19,
+    "name": "台南安平區",
+    "price": 2600,
+    "type": "property",
+    "rentLevels": [130, 390, 900, 1100, 1275],
+    "upgradePrice": 1500
+  },
+  {
+    "id": 20,
+    "name": "免費停車場",
+    "type": "free-parking"
+  },
+  {
+    "id": 21,
+    "name": "新北板橋區",
+    "price": 2800,
+    "type": "property",
+    "rentLevels": [140, 450, 1000, 1200, 1400],
+    "upgradePrice": 2000
+  },
+  {
+    "id": 22,
+    "name": "機會",
+    "type": "chance"
+  },
+  {
+    "id": 23,
+    "name": "新北新莊區",
+    "price": 2800,
+    "type": "property",
+    "rentLevels": [140, 450, 1000, 1200, 1400],
+    "upgradePrice": 2000
+  },
+  {
+    "id": 24,
+    "name": "新北三重區",
+    "price": 3000,
+    "type": "property",
+    "rentLevels": [150, 500, 1100, 1300, 1500],
+    "upgradePrice": 2000
+  },
+  {
+    "id": 25,
+    "name": "新北車站",
+    "price": 2000,
+    "type": "station",
+    "rentLevels": [250, 500, 1000, 2000],
+    "upgradePrice": 0
+  },
+  {
+    "id": 26,
+    "name": "桃園中壢區",
+    "price": 3200,
+    "type": "property",
+    "rentLevels": [160, 550, 1200, 1400, 1700],
+    "upgradePrice": 2000
+  },
+  {
+    "id": 27,
+    "name": "桃園大溪區",
+    "price": 3200,
+    "type": "property",
+    "rentLevels": [160, 550, 1200, 1400, 1700],
+    "upgradePrice": 2000
+  },
+  {
+    "id": 28,
+    "name": "自來水公司",
+    "price": 1500,
+    "type": "utility",
+    "rentLevels": [100, 200],
+    "upgradePrice": 0
+  },
+  {
+    "id": 29,
+    "name": "桃園機場",
+    "price": 3500,
+    "type": "property",
+    "rentLevels": [175, 600, 1300, 1700, 2000],
+    "upgradePrice": 2000
+  },
+  {
+    "id": 30,
+    "name": "入獄",
+    "type": "go-to-jail"
+  },
+  {
+    "id": 31,
+    "name": "新竹竹北",
+    "price": 3600,
+    "type": "property",
+    "rentLevels": [180, 650, 1400, 1750, 2100],
+    "upgradePrice": 2500
+  },
+  {
+    "id": 32,
+    "name": "新竹市區",
+    "price": 3600,
+    "type": "property",
+    "rentLevels": [180, 650, 1400, 1750, 2100],
+    "upgradePrice": 2500
+  },
+  {
+    "id": 33,
+    "name": "社區寶箱",
+    "type": "community"
+  },
+  {
+    "id": 34,
+    "name": "新竹科學園區",
+    "price": 4000,
+    "type": "property",
+    "rentLevels": [200, 700, 1700, 2000, 2300],
+    "upgradePrice": 2500
+  },
+  {
+    "id": 35,
+    "name": "新竹車站",
+    "price": 2000,
+    "type": "station",
+    "rentLevels": [250, 500, 1000, 2000],
+    "upgradePrice": 0
+  },
+  {
+    "id": 36,
+    "name": "機會",
+    "type": "chance"
+  },
+  {
+    "id": 37,
+    "name": "墾丁",
+    "price": 4300,
+    "type": "property",
+    "rentLevels": [350, 750, 1800, 2200, 2600],
+    "upgradePrice": 3000
+  },
+  {
+    "id": 38,
+    "name": "奢侈稅",
+    "type": "tax",
+    "taxType": "luxury",
+    "amount": 1000
+  },
+  {
+    "id": 39,
+    "name": "花蓮太魯閣",
+    "price": 4500,
+    "type": "property",
+    "rentLevels": [400, 800, 2000, 2500, 3000],
+    "upgradePrice": 3000
+  }
+]

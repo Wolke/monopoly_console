@@ -1,0 +1,61 @@
+[
+  {
+    "id": 1,
+    "description": "銀行付給你股息 $500",
+    "actionType": "addCash",
+    "amount": 500
+  },
+  {
+    "id": 2,
+    "description": "向前移動到起點",
+    "actionType": "moveTo",
+    "position": 0
+  },
+  {
+    "id": 3,
+    "description": "前往台北信義區",
+    "actionType": "moveTo",
+    "position": 1
+  },
+  {
+    "id": 4,
+    "description": "前往高雄車站",
+    "actionType": "moveTo",
+    "position": 15
+  },
+  {
+    "id": 5,
+    "description": "前往新竹科學園區",
+    "actionType": "moveTo",
+    "position": 34
+  },
+  {
+    "id": 6,
+    "description": "繳納各建築物的修繕費，每棟房子 $250",
+    "actionType": "payPerProperty",
+    "amountPerProperty": 250
+  },
+  {
+    "id": 7,
+    "description": "在銀行的貸款到期，付款 $1500",
+    "actionType": "addCash",
+    "amount": -1500
+  },
+  {
+    "id": 8,
+    "description": "你被選為董事長，付給每位玩家 $500",
+    "actionType": "payEachPlayer",
+    "amountPerPlayer": 500
+  },
+  {
+    "id": 9,
+    "description": "後退三步",
+    "actionType": "moveBack",
+    "steps": 3
+  },
+  {
+    "id": 10,
+    "description": "進入監獄",
+    "actionType": "goToJail"
+  }
+]

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "description": "銀行出錯，收到 $2000",
+    "actionType": "addCash",
+    "amount": 2000
+  },
+  {
+    "id": 2,
+    "description": "醫療費用，支付 $1000",
+    "actionType": "addCash",
+    "amount": -1000
+  },
+  {
+    "id": 3,
+    "description": "所得稅退款，收到 $200",
+    "actionType": "addCash",
+    "amount": 200
+  },
+  {
+    "id": 4,
+    "description": "你的生日，從每位玩家收到 $100",
+    "actionType": "collectFromEachPlayer",
+    "amountPerPlayer": 100
+  },
+  {
+    "id": 5,
+    "description": "前往起點",
+    "actionType": "moveTo",
+    "position": 0
+  },
+  {
+    "id": 6,
+    "description": "遺產，收到 $1000",
+    "actionType": "addCash",
+    "amount": 1000
+  },
+  {
+    "id": 7,
+    "description": "獲得假期基金，收到 $500",
+    "actionType": "addCash",
+    "amount": 500
+  },
+  {
+    "id": 8,
+    "description": "繳納學費，支付 $500",
+    "actionType": "addCash",
+    "amount": -500
+  },
+  {
+    "id": 9,
+    "description": "街道修繕，支付 $400",
+    "actionType": "addCash",
+    "amount": -400
+  },
+  {
+    "id": 10,
+    "description": "獲得顧問費，收到 $250",
+    "actionType": "addCash",
+    "amount": 250
+  }
+]
