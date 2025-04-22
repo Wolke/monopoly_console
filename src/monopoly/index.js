@@ -38,6 +38,24 @@ window.MonopolyGame = {
     return this.game.playTurn();
   },
   
+  // 決定購買當前地產
+  YesBuy() {
+    if (!this.game) {
+      console.log('請先初始化遊戲: MonopolyGame.initGame()');
+      return;
+    }
+    return this.game.acceptPurchase();
+  },
+  
+  // 決定不購買當前地產
+  NoBuy() {
+    if (!this.game) {
+      console.log('請先初始化遊戲: MonopolyGame.initGame()');
+      return;
+    }
+    return this.game.declinePurchase();
+  },
+  
   // 顯示遊戲狀態
   status() {
     if (!this.game) {
@@ -64,10 +82,14 @@ window.MonopolyGame = {
 4. 執行當前玩家回合: 
    MonopolyGame.rollAndMove()
    
-5. 顯示遊戲狀態: 
+5. 購買決策:
+   MonopolyGame.YesBuy() - 購買當前地產
+   MonopolyGame.NoBuy() - 拒絕購買當前地產
+   
+6. 顯示遊戲狀態: 
    MonopolyGame.status()
    
-6. 顯示使用說明: 
+7. 顯示使用說明: 
    MonopolyGame.help()
 
 ===== 遊戲規則 =====

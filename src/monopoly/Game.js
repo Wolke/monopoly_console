@@ -10,6 +10,7 @@ class Game {
     this.isGameOver = false;
     this.turnCount = 0;
     this.maxTurns = 100;
+    this.pendingPurchase = null; // 等待購買決定的地產
   }
 
   // 添加玩家
@@ -126,34 +127,52 @@ class Game {
   }
 
   // 處理地產購買
-  async handlePropertyPurchase(player, property) {
+  handlePropertyPurchase(player, property) {
     if (property.owner === null) {
       console.log(`${property.name} 可以購買，價格: $${property.price}`);
       
       if (player.cash >= property.price) {
         console.log(`${player.name} 有足夠的現金購買 ${property.name}`);
+        console.log(`請使用以下指令決定是否購買：`);
+        console.log(`- MonopolyGame.YesBuy() - 購買此地產`);
+        console.log(`- MonopolyGame.NoBuy() - 不購買此地產`);
         
-        // 詢問玩家是否購買
-        const answer = await this.askPlayerYesNo(`${player.name}，您要購買 ${property.name} 嗎？(Y/N)`);
-        
-        if (answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes') {
-          console.log(`${player.name} 決定購買 ${property.name}`);
-          player.buyProperty(property);
-        } else {
-          console.log(`${player.name} 決定不購買 ${property.name}`);
-        }
+        // 設定待購買的地產
+        this.pendingPurchase = {
+          player: player,
+          property: property
+        };
       } else {
         console.log(`${player.name} 資金不足，無法購買 ${property.name}`);
       }
     }
   }
   
-  // 向玩家詢問是/否問題
-  askPlayerYesNo(question) {
-    return new Promise(resolve => {
-      const answer = window.prompt(`${question} (Y/N)`);
-      resolve(answer);
-    });
+  // 接受購買地產
+  acceptPurchase() {
+    if (!this.pendingPurchase) {
+      console.log('目前沒有等待購買決定的地產');
+      return false;
+    }
+    
+    const { player, property } = this.pendingPurchase;
+    console.log(`${player.name} 決定購買 ${property.name}`);
+    player.buyProperty(property);
+    this.pendingPurchase = null;
+    return true;
+  }
+  
+  // 拒絕購買地產
+  declinePurchase() {
+    if (!this.pendingPurchase) {
+      console.log('目前沒有等待購買決定的地產');
+      return false;
+    }
+    
+    const { player, property } = this.pendingPurchase;
+    console.log(`${player.name} 決定不購買 ${property.name}`);
+    this.pendingPurchase = null;
+    return true;
   }
 
   // 處理租金支付
