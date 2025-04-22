@@ -126,19 +126,34 @@ class Game {
   }
 
   // 處理地產購買
-  handlePropertyPurchase(player, property) {
+  async handlePropertyPurchase(player, property) {
     if (property.owner === null) {
       console.log(`${property.name} 可以購買，價格: $${property.price}`);
       
       if (player.cash >= property.price) {
         console.log(`${player.name} 有足夠的現金購買 ${property.name}`);
         
-        // 預設自動購買，或者可以在使用者介面中添加詢問邏輯
-        player.buyProperty(property);
+        // 詢問玩家是否購買
+        const answer = await this.askPlayerYesNo(`${player.name}，您要購買 ${property.name} 嗎？(Y/N)`);
+        
+        if (answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes') {
+          console.log(`${player.name} 決定購買 ${property.name}`);
+          player.buyProperty(property);
+        } else {
+          console.log(`${player.name} 決定不購買 ${property.name}`);
+        }
       } else {
         console.log(`${player.name} 資金不足，無法購買 ${property.name}`);
       }
     }
+  }
+  
+  // 向玩家詢問是/否問題
+  askPlayerYesNo(question) {
+    return new Promise(resolve => {
+      const answer = window.prompt(`${question} (Y/N)`);
+      resolve(answer);
+    });
   }
 
   // 處理租金支付
