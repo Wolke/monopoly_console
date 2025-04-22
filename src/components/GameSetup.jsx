@@ -37,11 +37,11 @@ function GameSetup({ onGameStart }) {
   // 新增 AI 玩家
   const addAIPlayer = () => {
     const aiName = newPlayerName.trim() || undefined;
-    const player = MonopolyGame.addAIPlayer(aiName);
+    const player = MonopolyGame.addAIPlayer(aiName, selectedEmoji);
     if (player) {
-      setPlayers([...players, { name: player.name, isAI: true }]);
+      setPlayers([...players, { name: player.name, isAI: true, emoji: selectedEmoji }]);
       setNewPlayerName('');
-      setMessage(`已新增 AI 玩家: ${player.name}`);
+      setMessage(`已新增 AI 玩家: ${player.name} (${selectedEmoji})`);
     }
   };
 
@@ -68,7 +68,7 @@ function GameSetup({ onGameStart }) {
     MonopolyGame.initGame();
     updatedPlayers.forEach(player => {
       if (player.isAI) {
-        MonopolyGame.addAIPlayer(player.name);
+        MonopolyGame.addAIPlayer(player.name, player.emoji);
       } else {
         MonopolyGame.addPlayer(player.name, player.emoji);
       }
