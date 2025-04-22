@@ -13,6 +13,7 @@ class Game {
     this.turnCount = 0;
     this.maxTurns = BOARD_CONFIG.MAX_TURNS;
     this.pendingPurchase = null; // 等待購買決定的地產
+    this.lastDiceResult = null; // 最後一次擲骰子結果
   }
 
   // 添加玩家
@@ -327,6 +328,8 @@ class Game {
     
     // 擲骰子並移動
     const diceResult = this.rollDice();
+    // 儲存骰子結果
+    this.lastDiceResult = diceResult;
     
     // 移動玩家
     const oldPosition = player.position;
