@@ -2,16 +2,20 @@ import React, { useState, useEffect, useRef } from 'react';
 import MonopolyGame from '../monopoly/index.js';
 
 // 格子元件 - 顯示棋盤上的單個格子
-const Cell = ({ cell, isCurrentPosition, playerOnCell }) => {
+const Cell = ({ cell, isCurrentPosition, playersOnCell }) => {
   return (
     <div className={`board-cell ${isCurrentPosition ? 'current' : ''}`}>
       <div className="cell-content">
         <div className="cell-name">{cell.name}</div>
         {cell.price && <div className="cell-price">${cell.price}</div>}
-        {playerOnCell && (
-          <div className="player-token">
-            <div className="player-emoji">{playerOnCell.emoji}</div>
-            <div className="player-name-tag">{playerOnCell.name}</div>
+        {playersOnCell && playersOnCell.length > 0 && (
+          <div className="players-container">
+            {playersOnCell.map((player, idx) => (
+              <div className="player-token" key={player.id || idx} style={{ marginLeft: idx > 0 ? '5px' : '0' }}>
+                <div className="player-emoji">{player.emoji}</div>
+                <div className="player-name-tag">{player.name}</div>
+              </div>
+            ))}
           </div>
         )}
         {cell.owner && <div className="cell-owner">{cell.owner.name}</div>}
@@ -143,14 +147,14 @@ function GameBoard({ onBackToSetup }) {
         <div className="board-row">
           {cells.map((cell, index) => {
             const isCurrentPosition = index === currentPosition;
-            // 找出在該格子上的玩家
-            const playerOnCell = MonopolyGame.game.players.find(p => p.position === index);
+            // 找出所有在該格子上的玩家
+            const playersOnCell = MonopolyGame.game.players.filter(p => p.position === index);
             return (
               <Cell 
                 key={index} 
                 cell={cell} 
                 isCurrentPosition={isCurrentPosition}
-                playerOnCell={playerOnCell}
+                playersOnCell={playersOnCell}
               />
             );
           })}
