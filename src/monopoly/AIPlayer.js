@@ -3,9 +3,9 @@
 import Player from './Player.js';
 
 class AIPlayer extends Player {
-  constructor(name, cash = 15000) {
+  constructor(name, cash = 15000, emoji = '🤖') {
     // 若沒有提供名稱，則設定預設名稱 "AI 玩家"
-    super(name || `AI 玩家${Math.floor(Math.random() * 1000)}`, cash);
+    super(name || `AI 玩家${Math.floor(Math.random() * 1000)}`, cash, emoji);
     this.isAI = true;
     this.riskTolerance = Math.random(); // 0-1 之間的隨機值，代表 AI 的風險承受度
     this.buyThreshold = 0.4; // 購買決策門檻值

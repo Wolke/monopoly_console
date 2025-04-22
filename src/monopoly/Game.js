@@ -25,10 +25,10 @@ class Game {
   }
 
   // 添加 AI 玩家
-  addAIPlayer(name) {
-    const aiPlayer = new AIPlayer(name);
+  addAIPlayer(name, emoji = '🤖') {
+    const aiPlayer = new AIPlayer(name, 15000, emoji);
     this.players.push(aiPlayer);
-    console.log(`新增 AI 玩家: ${aiPlayer.name}`);
+    console.log(`新增 AI 玩家: ${aiPlayer.name} (${emoji})`);
     return aiPlayer;
   }
 
