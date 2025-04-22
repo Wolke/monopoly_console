@@ -1,0 +1,436 @@
+/* 大富翁遊戲 Mobile UI 樣式 */
+
+.monopoly-app {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f8f9fa;
+  overflow: hidden;
+}
+
+/* ----- 遊戲設定畫面樣式 ----- */
+.game-setup {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1e3a8a;
+}
+
+.init-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
+.setup-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.player-form {
+  margin-bottom: 15px;
+}
+
+.player-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.action-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  flex: 1;
+  cursor: pointer;
+}
+
+.add-btn {
+  background-color: #4f46e5;
+  color: white;
+}
+
+.add-ai-btn {
+  background-color: #0891b2;
+  color: white;
+}
+
+.message {
+  padding: 10px;
+  background-color: #fef3c7;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.players-list {
+  flex: 1;
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  overflow-y: auto;
+}
+
+.players-list h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #111827;
+}
+
+.empty-state {
+  color: #6b7280;
+  font-style: italic;
+}
+
+.players-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.player-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-bottom: 8px;
+  border-radius: 6px;
+}
+
+.human-player {
+  background-color: #e0e7ff;
+}
+
+.ai-player {
+  background-color: #e0f2fe;
+}
+
+.remove-btn {
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.primary-btn {
+  background-color: #2563eb;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* ----- 遊戲主畫面樣式 ----- */
+.game-board {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #1e3a8a;
+  color: white;
+}
+
+.game-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.small-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.back-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+/* 棋盤樣式 */
+.board-container {
+  flex: 0 0 35%;
+  background-color: #e2e8f0;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.board-scroll-container {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  height: 100%;
+  -webkit-overflow-scrolling: touch;
+  scroll-snap-type: x mandatory;
+}
+
+.board-row {
+  display: inline-flex;
+  height: 100%;
+}
+
+.board-cell {
+  min-width: 120px;
+  height: 100%;
+  border: 1px solid #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  padding: 8px;
+  scroll-snap-align: center;
+  position: relative;
+}
+
+.board-cell.current {
+  background-color: #fef9c3;
+  border: 2px solid #eab308;
+}
+
+.cell-content {
+  text-align: center;
+  width: 100%;
+}
+
+.cell-name {
+  font-weight: bold;
+  margin-bottom: 5px;
+  font-size: 14px;
+}
+
+.cell-price {
+  color: #047857;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cell-owner {
+  margin-top: 5px;
+  font-size: 12px;
+  background-color: #dbeafe;
+  padding: 2px 5px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.player-token {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  font-size: 16px;
+}
+
+/* 控制面板樣式 */
+.control-panel {
+  flex: 1;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.message-box {
+  padding: 10px;
+  background-color: #f1f5f9;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.dice-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  gap: 10px;
+}
+
+.dice {
+  width: 50px;
+  height: 50px;
+  background-color: white;
+  border: 2px solid #334155;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.dice-total {
+  font-size: 16px;
+  font-weight: bold;
+  color: #334155;
+}
+
+.player-info {
+  background-color: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.player-info h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #1e3a8a;
+  font-size: 16px;
+}
+
+.player-info p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.in-jail {
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.game-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.roll-btn {
+  background-color: #4f46e5;
+  color: white;
+  grid-column: span 2;
+}
+
+.ai-btn {
+  background-color: #0891b2;
+  color: white;
+}
+
+.status-btn {
+  background-color: #7c3aed;
+  color: white;
+}
+
+.game-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.purchase-dialog {
+  background-color: #eff6ff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 2px solid #3b82f6;
+}
+
+.purchase-dialog h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #1e3a8a;
+}
+
+.purchase-dialog p {
+  margin: 5px 0;
+}
+
+.yes-btn {
+  background-color: #22c55e;
+  color: white;
+}
+
+.no-btn {
+  background-color: #ef4444;
+  color: white;
+}
+
+.game-over {
+  text-align: center;
+  padding: 20px;
+  background-color: #fef2f2;
+  border-radius: 8px;
+  margin-top: 10px;
+  border: 2px solid #ef4444;
+}
+
+.game-over h3 {
+  color: #b91c1c;
+  margin-top: 0;
+  margin-bottom: 15px;
+}
+
+/* 手機適配 */
+@media (max-width: 480px) {
+  .btn-group {
+    flex-direction: column;
+  }
+  
+  .action-buttons {
+    grid-template-columns: 1fr;
+  }
+  
+  .roll-btn {
+    grid-column: auto;
+  }
+  
+  .board-cell {
+    min-width: 100px;
+  }
+}
