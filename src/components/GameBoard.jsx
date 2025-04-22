@@ -18,7 +18,7 @@ const Cell = ({ cell, isCurrentPosition, playersOnCell }) => {
             ))}
           </div>
         )}
-        {cell.owner && <div className="cell-owner">{cell.owner.name}</div>}
+        {cell.owner && <div className="cell-owner">{cell.owner.emoji} {cell.owner.name}</div>}
       </div>
     </div>
   );
