@@ -65,6 +65,66 @@ window.MonopolyGame = {
     return this.game.displayGameStatus();
   },
   
+  // 自動購買測試 - 如果可以買就自動購買
+  autoPlayTest(playerNames = ['小美', '小明'], maxTurns = 20) {
+    console.log('===== 開始自動購買測試 =====');
+    
+    // 初始化遊戲
+    this.initGame();
+    
+    // 新增玩家
+    playerNames.forEach(name => {
+      this.addPlayer(name);
+    });
+    
+    // 開始遊戲
+    if (!this.startGame()) {
+      console.log('遊戲無法開始，測試中止');
+      return;
+    }
+    
+    let turnCount = 0;
+    
+    // 執行回合直到達到最大回合數或遊戲結束
+    while (!this.game.isGameOver && turnCount < maxTurns) {
+      console.log(`\n====== 回合 ${turnCount + 1} ======`);
+      
+      // 執行回合
+      this.rollAndMove();
+      
+      // 如果有待購買的地產，自動購買
+      if (this.game.pendingPurchase) {
+        console.log('檢測到可購買地產，自動購買中...');
+        this.YesBuy();
+      }
+      
+      turnCount++;
+      
+      // 顯示當前遊戲狀態
+      this.status();
+    }
+    
+    console.log(`\n===== 測試結束 (共執行 ${turnCount} 回合) =====`);
+    
+    // 顯示最終遊戲狀態
+    const remainingPlayers = this.game.players.map(player => {
+      return {
+        name: player.name,
+        cash: player.cash,
+        properties: player.properties.length,
+        totalAssets: this.game.calculateTotalAssets(player)
+      };
+    }).sort((a, b) => b.totalAssets - a.totalAssets);
+    
+    console.log('\n===== 最終遊戲狀態 =====');
+    remainingPlayers.forEach((player, index) => {
+      console.log(`第 ${index + 1} 名: ${player.name}`);
+      console.log(`- 現金: $${player.cash}`);
+      console.log(`- 擁有地產數: ${player.properties}`);
+      console.log(`- 總資產: $${player.totalAssets}`);
+    });
+  },
+  
   // 顯示使用說明
   help() {
     console.log(`
@@ -91,6 +151,9 @@ window.MonopolyGame = {
    
 7. 顯示使用說明: 
    MonopolyGame.help()
+   
+8. 自動購買測試:
+   MonopolyGame.autoPlayTest(['小美', '小明'], 回合數)
 
 ===== 遊戲規則 =====
 - 每位玩家初始有 $15000
