@@ -1,4 +1,5 @@
 import Game from './Game.js';
+import AIPlayer from './AIPlayer.js';
 
 // 建立全域遊戲物件，方便在控制台中訪問
 window.MonopolyGame = {
@@ -20,6 +21,15 @@ window.MonopolyGame = {
     return this.game.addPlayer(name);
   },
   
+  // 新增 AI 玩家
+  addAIPlayer(name) {
+    if (!this.game) {
+      console.log('請先初始化遊戲: MonopolyGame.initGame()');
+      return;
+    }
+    return this.game.addAIPlayer(name);
+  },
+  
   // 開始遊戲
   startGame() {
     if (!this.game) {
@@ -36,6 +46,15 @@ window.MonopolyGame = {
       return;
     }
     return this.game.playTurn();
+  },
+  
+  // 自動執行 AI 玩家回合
+  autoPlayAI() {
+    if (!this.game) {
+      console.log('請先初始化遊戲: MonopolyGame.initGame()');
+      return;
+    }
+    return this.game.autoPlayAI();
   },
   
   // 決定購買當前地產
@@ -136,24 +155,30 @@ window.MonopolyGame = {
 2. 新增玩家: 
    MonopolyGame.addPlayer('玩家名稱')
    
-3. 開始遊戲: 
+3. 新增 AI 玩家:
+   MonopolyGame.addAIPlayer('AI玩家名稱')  // 名稱可選，不提供會自動產生
+   
+4. 開始遊戲: 
    MonopolyGame.startGame()
    
-4. 執行當前玩家回合: 
+5. 執行當前玩家回合: 
    MonopolyGame.rollAndMove()
    
-5. 購買決策:
+6. 自動執行 AI 玩家回合:
+   MonopolyGame.autoPlayAI()  // 自動執行所有 AI 玩家的連續回合，直到輪到人類玩家
+   
+7. 購買決策:
    MonopolyGame.YesBuy() - 購買當前地產
    MonopolyGame.NoBuy() - 拒絕購買當前地產
    
-6. 顯示遊戲狀態: 
+8. 顯示遊戲狀態: 
    MonopolyGame.status()
    
-7. 顯示使用說明: 
+9. 顯示使用說明: 
    MonopolyGame.help()
    
-8. 自動購買測試:
-   MonopolyGame.autoPlayTest(['小美', '小明'], 回合數)
+10. 自動購買測試:
+    MonopolyGame.autoPlayTest(['小美', '小明'], 回合數)
 
 ===== 遊戲規則 =====
 - 每位玩家初始有 $15000
@@ -161,6 +186,12 @@ window.MonopolyGame = {
 - 進入監獄需要支付 $500 或等待 3 回合才能出獄
 - 購買地產後，其他玩家到達時需支付租金
 - 遊戲結束條件：只剩一位玩家或達到最大回合數 (100回合)
+
+===== AI 玩家說明 =====
+- AI 玩家會根據其風險承受度自動做出購買決策
+- 每個 AI 玩家有不同的風險承受度，影響其遊戲風格
+- 使用 autoPlayAI() 可以自動執行所有 AI 玩家的回合
+- AI 玩家會自動處理監獄、購買地產等決策
 
 祝您遊戲愉快！
     `);

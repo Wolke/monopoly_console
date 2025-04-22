@@ -1,5 +1,6 @@
 // 遊戲控制器類別
 import Player from './Player.js';
+import AIPlayer from './AIPlayer.js';
 import Board from './Board.js';
 
 class Game {
@@ -19,6 +20,14 @@ class Game {
     this.players.push(player);
     console.log(`新增玩家: ${name}`);
     return player;
+  }
+
+  // 添加 AI 玩家
+  addAIPlayer(name) {
+    const aiPlayer = new AIPlayer(name);
+    this.players.push(aiPlayer);
+    console.log(`新增 AI 玩家: ${aiPlayer.name}`);
+    return aiPlayer;
   }
 
   // 開始遊戲
@@ -54,58 +63,7 @@ class Game {
     return { dice1, dice2, total };
   }
 
-  // 處理玩家回合
-  playTurn() {
-    const player = this.getCurrentPlayer();
-    
-    if (this.isGameOver) {
-      console.log('遊戲已結束');
-      return false;
-    }
-    
-    console.log(`--- ${player.name} 的回合 ---`);
-    
-    // 處理監獄情況
-    if (player.inJail) {
-      player.jailTurns++;
-      console.log(`${player.name} 在監獄中 (第 ${player.jailTurns} 回合)`);
-      
-      // 付費出獄選項
-      if (player.cash >= 500) {
-        console.log(`${player.name} 支付 $500 從監獄釋放`);
-        player.updateCash(-500);
-        player.releaseFromJail();
-      } else if (player.jailTurns >= 3) {
-        console.log(`${player.name} 已在監獄待了3回合，獲得釋放`);
-        player.releaseFromJail();
-      } else {
-        // 本回合無法移動
-        this.endTurn();
-        return true;
-      }
-    }
-    
-    // 擲骰子並移動
-    const diceResult = this.rollDice();
-    
-    // 移動玩家
-    const oldPosition = player.position;
-    const newPosition = player.move(diceResult.total);
-    
-    // 檢查是否經過起點
-    if (newPosition < oldPosition) {
-      player.updateCash(2000);
-      console.log(`${player.name} 經過起點，獲得 $2000`);
-    }
-    
-    // 處理當前格子
-    this.handleCell(player, newPosition);
-    
-    this.endTurn();
-    return true;
-  }
-
-  // 處理格子動作
+  // 處理當前格子
   handleCell(player, position) {
     const cell = this.board.getCellInfo(position);
     console.log(`${player.name} 到達 ${cell.name}`);
@@ -132,16 +90,24 @@ class Game {
       console.log(`${property.name} 可以購買，價格: $${property.price}`);
       
       if (player.cash >= property.price) {
-        console.log(`${player.name} 有足夠的現金購買 ${property.name}`);
-        console.log(`請使用以下指令決定是否購買：`);
-        console.log(`- MonopolyGame.YesBuy() - 購買此地產`);
-        console.log(`- MonopolyGame.NoBuy() - 不購買此地產`);
-        
-        // 設定待購買的地產
-        this.pendingPurchase = {
-          player: player,
-          property: property
-        };
+        // AI 玩家自動決策
+        if (player.isAI) {
+          if (player.decidePurchase(property, this)) {
+            player.buyProperty(property);
+          }
+        } else {
+          // 人類玩家需要手動決策
+          console.log(`${player.name} 有足夠的現金購買 ${property.name}`);
+          console.log(`請使用以下指令決定是否購買：`);
+          console.log(`- MonopolyGame.YesBuy() - 購買此地產`);
+          console.log(`- MonopolyGame.NoBuy() - 不購買此地產`);
+          
+          // 設定待購買的地產
+          this.pendingPurchase = {
+            player: player,
+            property: property
+          };
+        }
       } else {
         console.log(`${player.name} 資金不足，無法購買 ${property.name}`);
       }
@@ -307,6 +273,104 @@ class Game {
     });
     
     console.log('=======================\n');
+  }
+
+  // 處理玩家回合
+  playTurn() {
+    const player = this.getCurrentPlayer();
+    
+    if (this.isGameOver) {
+      console.log('遊戲已結束');
+      return false;
+    }
+    
+    console.log(`--- ${player.name} 的回合 ---`);
+    
+    // 處理監獄情況
+    if (player.inJail) {
+      player.jailTurns++;
+      console.log(`${player.name} 在監獄中 (第 ${player.jailTurns} 回合)`);
+      
+      // AI 玩家監獄決策
+      if (player.isAI) {
+        const jailStrategy = player.decideJailStrategy(this);
+        if (jailStrategy === 'pay' && player.cash >= 500) {
+          console.log(`${player.name} 支付 $500 從監獄釋放`);
+          player.updateCash(-500);
+          player.releaseFromJail();
+        } else if (player.jailTurns >= 3) {
+          console.log(`${player.name} 已在監獄待了3回合，獲得釋放`);
+          player.releaseFromJail();
+        } else {
+          // 本回合無法移動
+          this.endTurn();
+          return true;
+        }
+      } else {
+        // 人類玩家監獄邏輯 (原有邏輯)
+        // 付費出獄選項
+        if (player.cash >= 500) {
+          console.log(`${player.name} 支付 $500 從監獄釋放`);
+          player.updateCash(-500);
+          player.releaseFromJail();
+        } else if (player.jailTurns >= 3) {
+          console.log(`${player.name} 已在監獄待了3回合，獲得釋放`);
+          player.releaseFromJail();
+        } else {
+          // 本回合無法移動
+          this.endTurn();
+          return true;
+        }
+      }
+    }
+    
+    // 擲骰子並移動
+    const diceResult = this.rollDice();
+    
+    // 移動玩家
+    const oldPosition = player.position;
+    const newPosition = player.move(diceResult.total);
+    
+    // 檢查是否經過起點
+    if (newPosition < oldPosition) {
+      player.updateCash(2000);
+      console.log(`${player.name} 經過起點，獲得 $2000`);
+    }
+    
+    // 處理當前格子
+    this.handleCell(player, newPosition);
+    
+    this.endTurn();
+    return true;
+  }
+
+  // 自動進行 AI 玩家的所有回合
+  autoPlayAI() {
+    // 檢查當前是否為 AI 玩家回合
+    const currentPlayer = this.getCurrentPlayer();
+    
+    if (!currentPlayer.isAI) {
+      console.log('當前不是 AI 玩家的回合');
+      return false;
+    }
+    
+    while (this.getCurrentPlayer().isAI && !this.isGameOver) {
+      this.playTurn();
+      
+      // 防止無限循環
+      if (this.pendingPurchase && this.pendingPurchase.player.isAI) {
+        const aiPlayer = this.pendingPurchase.player;
+        const property = this.pendingPurchase.property;
+        
+        if (aiPlayer.decidePurchase(property, this)) {
+          this.acceptPurchase();
+        } else {
+          this.declinePurchase();
+        }
+      }
+    }
+    
+    return true;
   }
 }
 
