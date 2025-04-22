@@ -13,12 +13,12 @@ window.MonopolyGame = {
   },
   
   // 新增玩家
-  addPlayer(name) {
+  addPlayer(name, emoji = '👤') {
     if (!this.game) {
       console.log('請先初始化遊戲: MonopolyGame.initGame()');
       return;
     }
-    return this.game.addPlayer(name);
+    return this.game.addPlayer(name, emoji);
   },
   
   // 新增 AI 玩家

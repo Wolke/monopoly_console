@@ -2,13 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import MonopolyGame from '../monopoly/index.js';
 
 // 格子元件 - 顯示棋盤上的單個格子
-const Cell = ({ cell, isCurrentPosition, hasPlayer }) => {
+const Cell = ({ cell, isCurrentPosition, playerOnCell }) => {
   return (
     <div className={`board-cell ${isCurrentPosition ? 'current' : ''}`}>
       <div className="cell-content">
         <div className="cell-name">{cell.name}</div>
         {cell.price && <div className="cell-price">${cell.price}</div>}
-        {hasPlayer && <div className="player-token">👤</div>}
+        {playerOnCell && (
+          <div className="player-token">
+            <div className="player-emoji">{playerOnCell.emoji}</div>
+            <div className="player-name-tag">{playerOnCell.name}</div>
+          </div>
+        )}
         {cell.owner && <div className="cell-owner">{cell.owner.name}</div>}
       </div>
     </div>
@@ -138,13 +143,14 @@ function GameBoard({ onBackToSetup }) {
         <div className="board-row">
           {cells.map((cell, index) => {
             const isCurrentPosition = index === currentPosition;
-            const hasPlayer = MonopolyGame.game.players.some(p => p.position === index);
+            // 找出在該格子上的玩家
+            const playerOnCell = MonopolyGame.game.players.find(p => p.position === index);
             return (
               <Cell 
                 key={index} 
                 cell={cell} 
                 isCurrentPosition={isCurrentPosition}
-                hasPlayer={hasPlayer}
+                playerOnCell={playerOnCell}
               />
             );
           })}

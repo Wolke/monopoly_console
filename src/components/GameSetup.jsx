@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import MonopolyGame from '../monopoly/index.js';
 
+// 可選擇的 emoji 列表
+const emojiOptions = ['👤', '😊', '😎', '🐱', '🐶', '🦊', '🐻', '🐼', '🐨', '🦁', '🐯', '🐭', '🐹', '🐰', '🦄', '🐴', '🐸', '🐙', '🦀', '🐝'];
+
 // 遊戲設定元件 - 處理初始化遊戲和玩家設定
 function GameSetup({ onGameStart }) {
   const [players, setPlayers] = useState([]);
   const [newPlayerName, setNewPlayerName] = useState('');
+  const [selectedEmoji, setSelectedEmoji] = useState('👤');
   const [initialized, setInitialized] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -22,11 +26,11 @@ function GameSetup({ onGameStart }) {
       return;
     }
 
-    const player = MonopolyGame.addPlayer(newPlayerName);
+    const player = MonopolyGame.addPlayer(newPlayerName, selectedEmoji);
     if (player) {
-      setPlayers([...players, { name: newPlayerName, isAI: false }]);
+      setPlayers([...players, { name: newPlayerName, isAI: false, emoji: selectedEmoji }]);
       setNewPlayerName('');
-      setMessage(`已新增玩家: ${newPlayerName}`);
+      setMessage(`已新增玩家: ${newPlayerName} (${selectedEmoji})`);
     }
   };
 
@@ -66,7 +70,7 @@ function GameSetup({ onGameStart }) {
       if (player.isAI) {
         MonopolyGame.addAIPlayer(player.name);
       } else {
-        MonopolyGame.addPlayer(player.name);
+        MonopolyGame.addPlayer(player.name, player.emoji);
       }
     });
     
@@ -92,6 +96,22 @@ function GameSetup({ onGameStart }) {
               placeholder="輸入玩家名稱" 
               className="player-input"
             />
+            
+            <div className="emoji-selector">
+              <p>選擇角色圖示:</p>
+              <div className="emoji-grid">
+                {emojiOptions.map((emoji, index) => (
+                  <button 
+                    key={index}
+                    className={`emoji-option ${selectedEmoji === emoji ? 'selected' : ''}`}
+                    onClick={() => setSelectedEmoji(emoji)}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            </div>
+            
             <div className="btn-group">
               <button className="action-btn add-btn" onClick={addHumanPlayer}>新增玩家</button>
               <button className="action-btn add-ai-btn" onClick={addAIPlayer}>新增 AI 玩家</button>

@@ -1,12 +1,13 @@
 // 玩家類別
 class Player {
-  constructor(name, cash = 15000) {
+  constructor(name, cash = 15000, emoji = '👤') {
     this.name = name;
     this.cash = cash;
     this.position = 0;
     this.properties = [];
     this.inJail = false;
     this.jailTurns = 0;
+    this.emoji = emoji;
   }
 
   // 移動玩家

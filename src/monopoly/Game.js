@@ -17,10 +17,10 @@ class Game {
   }
 
   // 添加玩家
-  addPlayer(name) {
-    const player = new Player(name);
+  addPlayer(name, emoji = '👤') {
+    const player = new Player(name, 15000, emoji);
     this.players.push(player);
-    console.log(`新增玩家: ${name}`);
+    console.log(`新增玩家: ${name} (${emoji})`);
     return player;
   }
 
