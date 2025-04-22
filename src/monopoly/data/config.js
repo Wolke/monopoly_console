@@ -27,7 +27,7 @@ export const BOARD_CONFIG = {
   GO_TO_JAIL_POSITION: 30,
   
   // 遊戲最大回合數
-  MAX_TURNS: 100
+  MAX_TURNS: 1000
 };
 
 // 卡片配置
