@@ -2,6 +2,7 @@
 import Player from './Player.js';
 import AIPlayer from './AIPlayer.js';
 import Board from './Board.js';
+import { BOARD_CONFIG } from './data/config.js';
 
 class Game {
   constructor() {
@@ -10,7 +11,7 @@ class Game {
     this.currentPlayerIndex = 0;
     this.isGameOver = false;
     this.turnCount = 0;
-    this.maxTurns = 100;
+    this.maxTurns = BOARD_CONFIG.MAX_TURNS;
     this.pendingPurchase = null; // 等待購買決定的地產
   }
 
