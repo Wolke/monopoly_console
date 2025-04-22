@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://[您的GitHub使用者名稱].github.io/monopoly_console",
+  "homepage": "https://wolke.github.io/monopoly_console",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
