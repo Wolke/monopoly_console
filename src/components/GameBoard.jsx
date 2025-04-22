@@ -34,6 +34,12 @@ function GameBoard({ onBackToSetup }) {
     gameOver: false,
     showPurchaseDialog: false
   });
+  const [animationState, setAnimationState] = useState({
+    isMoving: false,
+    startPosition: 0,
+    endPosition: 0,
+    currentAnimationPosition: 0
+  });
   const boardRef = useRef(null);
 
   // 初始化遊戲狀態
@@ -57,27 +63,100 @@ function GameBoard({ onBackToSetup }) {
     });
   };
 
+  // 動畫移動到指定位置
+  const animateMovement = (startPos, endPos) => {
+    // 設定初始動畫狀態
+    setAnimationState({
+      isMoving: true,
+      startPosition: startPos,
+      endPosition: endPos,
+      currentAnimationPosition: startPos
+    });
+    
+    // 啟動逐格移動動畫
+    const animateStep = (currentPosition) => {
+      if (currentPosition === endPos) {
+        // 動畫結束
+        setAnimationState(prev => ({ ...prev, isMoving: false }));
+        return;
+      }
+      
+      // 計算下一個位置 (考慮棋盤環形特性)
+      const nextPosition = (currentPosition + 1) % MonopolyGame.game.board.cells.length;
+      
+      // 更新當前動畫位置
+      setAnimationState(prev => ({ 
+        ...prev, 
+        currentAnimationPosition: nextPosition 
+      }));
+      
+      // 滾動到當前格子
+      scrollToPosition(nextPosition);
+      
+      // 延遲一段時間後繼續下一步移動
+      setTimeout(() => {
+        animateStep(nextPosition);
+      }, 300); // 300毫秒一格
+    };
+    
+    // 開始動畫
+    animateStep(startPos);
+  };
+  
+  // 滾動到指定位置
+  const scrollToPosition = (position) => {
+    if (!boardRef.current) return;
+    
+    const cellWidth = 120; // 每個格子的寬度
+    
+    // 計算滾動位置，使當前格子居中
+    const scrollPosition = position * cellWidth - (boardRef.current.clientWidth / 2) + (cellWidth / 2);
+    
+    boardRef.current.scrollTo({
+      left: Math.max(0, scrollPosition),
+      behavior: 'smooth'
+    });
+  };
+
   // 擲骰子並移動
   const rollAndMove = () => {
-    const result = MonopolyGame.rollAndMove();
     const game = MonopolyGame.game;
+    if (!game) return;
+    
+    // 儲存當前玩家的起始位置
+    const currentPlayer = game.getCurrentPlayer();
+    const startPosition = currentPlayer.position;
+    
+    // 擲骰子並取得結果
+    const result = MonopolyGame.rollAndMove();
     
     if (result) {
-      // 更新遊戲狀態
+      // 更新骰子結果
       setGameState(prev => ({
         ...prev,
-        currentPlayer: game.getCurrentPlayer(),
-        pendingPurchase: game.pendingPurchase,
-        message: game.pendingPurchase 
-          ? `${prev.currentPlayer.name} 可以購買 ${game.pendingPurchase.property.name}` 
-          : `${prev.currentPlayer.name} 已完成回合，輪到 ${game.getCurrentPlayer().name}`,
         diceResult: game.lastDiceResult || { dice1: 1, dice2: 1, total: 2 },
-        gameOver: game.isGameOver,
-        showPurchaseDialog: !!game.pendingPurchase
+        message: `${prev.currentPlayer.name} 擲出了 ${game.lastDiceResult.total} 點，正在移動...`
       }));
-
-      // 如果當前格子在視圖外，滾動到可見區域
-      scrollToCurrentPosition();
+      
+      // 取得目標位置
+      const endPosition = game.getCurrentPlayer().position;
+      
+      // 啟動移動動畫
+      animateMovement(startPosition, endPosition);
+      
+      // 等待動畫完成後更新遊戲狀態
+      setTimeout(() => {
+        setGameState(prev => ({
+          ...prev,
+          currentPlayer: game.getCurrentPlayer(),
+          pendingPurchase: game.pendingPurchase,
+          message: game.pendingPurchase 
+            ? `${prev.currentPlayer.name} 可以購買 ${game.pendingPurchase.property.name}` 
+            : `${prev.currentPlayer.name} 已完成回合，輪到 ${game.getCurrentPlayer().name}`,
+          gameOver: game.isGameOver,
+          showPurchaseDialog: !!game.pendingPurchase
+        }));
+      }, (endPosition - startPosition) * 300 + 500); // 給予足夠時間完成動畫
     }
   };
 
@@ -114,22 +193,6 @@ function GameBoard({ onBackToSetup }) {
     MonopolyGame.status();
   };
 
-  // 滾動到當前玩家位置
-  const scrollToCurrentPosition = () => {
-    if (!boardRef.current || !gameState.currentPlayer) return;
-    
-    const cellWidth = 120; // 每個格子的寬度
-    const position = gameState.currentPlayer.position;
-    
-    // 計算滾動位置，使當前格子居中
-    const scrollPosition = position * cellWidth - (boardRef.current.clientWidth / 2) + (cellWidth / 2);
-    
-    boardRef.current.scrollTo({
-      left: Math.max(0, scrollPosition),
-      behavior: 'smooth'
-    });
-  };
-
   // 重新開始遊戲
   const restartGame = () => {
     onBackToSetup();
@@ -140,7 +203,10 @@ function GameBoard({ onBackToSetup }) {
     if (!MonopolyGame.game) return null;
 
     const cells = MonopolyGame.game.board.cells;
-    const currentPosition = gameState.currentPlayer?.position || 0;
+    // 如果正在動畫中，則使用動畫的當前位置，否則使用玩家的實際位置
+    const currentPosition = animationState.isMoving 
+      ? animationState.currentAnimationPosition 
+      : (gameState.currentPlayer?.position || 0);
 
     return (
       <div className="board-scroll-container" ref={boardRef}>
@@ -148,7 +214,14 @@ function GameBoard({ onBackToSetup }) {
           {cells.map((cell, index) => {
             const isCurrentPosition = index === currentPosition;
             // 找出所有在該格子上的玩家
-            const playersOnCell = MonopolyGame.game.players.filter(p => p.position === index);
+            const playersOnCell = animationState.isMoving
+              // 動畫中，只顯示當前玩家在動畫位置上
+              ? (index === animationState.currentAnimationPosition && gameState.currentPlayer 
+                ? [gameState.currentPlayer] 
+                : MonopolyGame.game.players.filter(p => p.position === index && p.id !== gameState.currentPlayer?.id))
+              // 正常顯示所有玩家
+              : MonopolyGame.game.players.filter(p => p.position === index);
+            
             return (
               <Cell 
                 key={index} 
